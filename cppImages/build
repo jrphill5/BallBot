@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Building the OpenCV example for the Beaglebone"
+g++ -O2 `pkg-config --cflags --libs opencv` boneCV.cpp -o boneCV
