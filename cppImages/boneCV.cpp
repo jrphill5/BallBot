@@ -35,8 +35,7 @@ int main()
     circlesOut = frame;
     cvtColor(frame, hsv, CV_BGR2HSV);
     
-    inRange(hsv, Scalar(25,55,200), Scalar(35,70,255), hsv);
-    cvtColor(frame, hsv, CV_BGR2GRAY);
+    inRange(hsv, Scalar(7,150,180), Scalar(30,255,255), hsv);
     blur(hsv,hsv,Size(5,5));
     erode(hsv, hsverode, Mat());
     subtract(hsv, hsverode, hsv);
@@ -44,7 +43,7 @@ int main()
     vector<Vec3f> circles;
 
     //HoughCircles(src, outarray,#method,dp??,minDist,param1,param2,minRadius,maxRadius)
-    HoughCircles(hsv, circles, CV_HOUGH_GRADIENT, 2, 100, 18, 80, 10, 100);
+    HoughCircles(hsv, circles, CV_HOUGH_GRADIENT, 2, 100, 18, 80, 10, 200);
 
     for(size_t i = 0; i < circles.size(); i++){
 	    Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
