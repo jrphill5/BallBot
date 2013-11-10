@@ -26,7 +26,7 @@ int main()
     if(!capture.isOpened()){
 	    cout << "Failed to connect to the camera." << endl;
     }
-    Mat frame, edges, hsv(Size(1280,720),CV_8UC3), circlesOut;
+    Mat frame, hsv, hsverode, circlesOut;
     capture >> frame;
     if(frame.empty()){
 		cout << "Failed to capture an image" << endl;
@@ -35,11 +35,12 @@ int main()
     circlesOut = frame;
     cvtColor(frame, hsv, CV_BGR2HSV);
     
-    inRange(hsv, (7,160,200), (25,255,255), hsv);
-    //cvtColor(hsv, hsv, CV_HSV2BGR);
-    //cvtColor(hsv, hsv, CV_BGR2GRAY);
+    inRange(hsv, Scalar(25,55,200), Scalar(35,70,255), hsv);
+    cvtColor(frame, hsv, CV_BGR2GRAY);
     blur(hsv,hsv,Size(5,5));
-    
+    erode(hsv, hsverode, Mat());
+    subtract(hsv, hsverode, hsv);
+
     vector<Vec3f> circles;
 
     //HoughCircles(src, outarray,#method,dp??,minDist,param1,param2,minRadius,maxRadius)
@@ -65,7 +66,6 @@ int main()
     Canny(edges, edges, 5, 70, 3);
     ***************************
     */
-    imwrite("edges.png", edges);
     imwrite("capture.png", frame);
     imwrite("hsv.png", hsv);
     imwrite("circlesOut.png", circlesOut);
