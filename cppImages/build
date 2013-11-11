@@ -1,4 +1,5 @@
 #!/bin/bash
 
-echo "Building the OpenCV example for the Beaglebone"
 g++ -O2 `pkg-config --cflags --libs opencv` boneCV.cpp -o boneCV
+
+# g++ -O2 -Wall `pkg-config --cflags --libs opencv` boneCV.cpp motorControl.cpp SimpleGPIO.cpp -o bot
