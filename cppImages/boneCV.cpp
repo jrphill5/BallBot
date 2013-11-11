@@ -12,8 +12,8 @@
 #include<iostream>
 #include<opencv2/opencv.hpp>
 #include <cv.h>
-#include <highgui.h>
 #include <math.h>
+#include <vector>
 using namespace std;
 using namespace cv;
 
@@ -26,15 +26,17 @@ int main()
     if(!capture.isOpened()){
 	    cout << "Failed to connect to the camera." << endl;
     }
+
     Mat frame, hsv, hsverode, circlesOut;
+
     capture >> frame;
     if(frame.empty()){
 		cout << "Failed to capture an image" << endl;
 		return -1;
     }
+
     circlesOut = frame;
     cvtColor(frame, hsv, CV_BGR2HSV);
-    
     inRange(hsv, Scalar(7,150,180), Scalar(30,255,255), hsv);
     blur(hsv,hsv,Size(5,5));
     erode(hsv, hsverode, Mat());
@@ -42,8 +44,8 @@ int main()
 
     vector<Vec3f> circles;
 
-    //HoughCircles(src, outarray,#method,dp??,minDist,param1,param2,minRadius,maxRadius)
-    HoughCircles(hsv, circles, CV_HOUGH_GRADIENT, 2, 100, 18, 80, 10, 200);
+    //HoughCircles(src, outarray,method,dp??,minDist,param1,param2,minRadius,maxRadius)
+    HoughCircles(hsv, circles, CV_HOUGH_GRADIENT, 2, 100, 18, 80, 10, 250);
 
     for(size_t i = 0; i < circles.size(); i++){
 	    Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
@@ -52,19 +54,9 @@ int main()
 	    circle(circlesOut, center, 3, Scalar(0,255,0), -1, 8, 0);
 	    circle(circlesOut, center, radius, Scalar(0,255,0), 3, 8, 0);
 
-	    cout << "i found a circle" << endl;
+	    cout << center << ' ' << radius  << endl;
     }
 
-    /* previous code to test for lines
-     * *************************
-    //inRange(src,lower bound,upper bound,dst)
-    inRange(edges, 25, 160, hsv);
-    //blur(src, output, kernel)
-    blur(edges,edges,Size(5,5));
-    //Canny(src, output, thresh1, thresh2, 3?????)
-    Canny(edges, edges, 5, 70, 3);
-    ***************************
-    */
     imwrite("capture.png", frame);
     imwrite("hsv.png", hsv);
     imwrite("circlesOut.png", circlesOut);
