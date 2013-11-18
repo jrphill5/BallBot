@@ -1,6 +1,6 @@
 import pygame.camera
 pygame.camera.init()
-cam = pygame.camera.Camera(pygame.camera.list_cameras()[0],(640,480))
+cam = pygame.camera.Camera(pygame.camera.list_cameras()[1],(640,480))
 cam.start()
 img = cam.get_image()
 import pygame.image

@@ -11,7 +11,7 @@ cv2.namedWindow("hue")
 #cv2.namedWindow("sat")
 #cv2.namedWindow("val")
 
-vc = cv2.VideoCapture(0)
+vc = cv2.VideoCapture(1)
 
 if vc.isOpened(): # try to get the first frame
 	avail, frame = vc.read()
